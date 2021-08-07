@@ -3,7 +3,6 @@
  */
 export default class Component{
     /**
-     * 
      * @param {String} name - Nome do componente
      */
     constructor(name){

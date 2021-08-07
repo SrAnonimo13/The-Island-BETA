@@ -41,6 +41,17 @@ export default class Camera extends GameObjet {
         }
     }
 
+    /**
+     * Essa função e usada para suaviza o movimento da camera
+     * @param {Number} ip - A posição atual do objeto
+     * @param {Number} fp - A posição vinal do objeto
+     * @param {Number} speed - Velocidade da suavização
+     * @example
+     * this.x = this.lerp(this.x, this.final_x, speed)
+     * // > this.x = 0.001..
+     * // > this.x = 0.003..
+     * // > this.x = ...
+     */
     lerp(ip, fp, speed){
         return (1-speed) * ip + speed * fp
     }

@@ -12,7 +12,10 @@ export default class Sprite {
         this.image = undefined
     }
     
-    
+    /**
+     * Essa função retorna a classe sprite com a imagem carregada
+     * @returns {Sprite} 
+     */
     loadImage(){
         this.image = new Image(this.width, this.height)
         this.image.src = this.url

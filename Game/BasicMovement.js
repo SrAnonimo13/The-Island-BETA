@@ -34,12 +34,21 @@ export default class BasicMovement extends Component {
         })
     }
 
+    /**
+     * Essa função e usada para identificar se a tecla foi pressionada
+     * @param {String} key - Tecla a ser detectada
+     * @returns {Boolean}
+     */
     IsPressed(key) {
         if (this.options.arrowsKeys[key] in this.keys && this.keys[this.options.arrowsKeys[key]].isPressed) {
             return true
         } else return false
     }
 
+    /**
+     * Essa função e usada para identificar se ouve um movimento diagonal
+     * @returns {Boolean}
+     */
     IsDiagonal() {
         if ((this.IsPressed('Up') || this.IsPressed('Down')) && (this.IsPressed('Left') || this.IsPressed('Right'))) {
             return true
