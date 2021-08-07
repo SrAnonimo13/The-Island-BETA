@@ -3,7 +3,7 @@ import Component from "./Component.js";
 /**
  * Esse componente e usado para a criação de um movimento no objeto no qual ele foi adicionado
  */
-export default class BasicMovement extends Component{
+export default class BasicMovement extends Component {
     /**
      * Esse componente e usado para movimentar um objeto usando as o teclado
      * @param {String} name - Nome do componente
@@ -17,28 +17,53 @@ export default class BasicMovement extends Component{
      * @param {Boolean} [options.isLerp] - Se verdadeiro o movimento do objeto sera suave
      * @param {Number} [options.LerpSpeed] - Velocidade do lerp (so funciona se o "isLerp" for "true") 
      */
-    constructor(name, speed, options){
+    constructor(name, speed, options) {
         super(name)
         this.speed = speed
         this.options = options
-        this.keyboard = {
-            isPressed: false,
-            key: ''
-        }
+        this.keys = {}
 
         addEventListener('keydown', e => {
-            this.keyboard.isPressed = true
-            this.keyboard.key = e.key
+            let newKey = { isPressed: true, value: e.key }
+            this.keys[e.key] = newKey
         })
 
         addEventListener('keyup', e => {
-            this.keyboard.isPressed = false
+            delete this.keys[e.key]
         })
     }
 
-    update(gameObject){
-        if(this.keyboard.isPressed){
-            
+    IsPressed(key){
+        if (this.options.arrowsKeys[key] in this.keys && this.keys[this.options.arrowsKeys[key]].isPressed) {
+            return true
+        } else return false
+    }
+
+    IsMoreKeysPressed(){
+        let i = 0
+        for(let key in this.options.arrowsKeys){
+            if(this.options.arrowsKeys[key].isPressed)
+                i++
+        }
+
+        if(i > 0) return true; else return false
+    }
+
+    update(object) {
+        if (this.IsPressed('Up')) {
+            object.move(0, this.speed * -1)
+        }
+        
+        if(this.IsPressed('Down')){
+            object.move(0, this.speed)
+        }
+
+        if(this.IsPressed('Left')){
+            object.move(this.speed * -1, 0)
+        }
+
+        if(this.IsPressed('Right')){
+            object.move(this.speed, 0)
         }
     }
 }

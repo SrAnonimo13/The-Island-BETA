@@ -35,6 +35,6 @@ export default class Tile extends GameObjet{
      */
 
     update(ctx, camera){
-        ctx.drawImage(this.sprite.image, this.tx + camera.camera_x * -1, this.ty + camera.camera_y * -1, this.width, this.height)
+        ctx.drawImage(this.sprite.image, this.tx + camera.x * -1, this.ty + camera.y * -1, this.width, this.height)
     }
 }

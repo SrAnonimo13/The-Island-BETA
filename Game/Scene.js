@@ -24,16 +24,17 @@ export default class Scene {
      * @param {Game} jogo
      */
     update(ctx, jogo){
+        this.getCamera().setSize(jogo.elem.width , jogo.elem.height)
         for(let i in this.elements){
             let element = this.elements[i]
             if(element?.update){
                 element.update(ctx, this.getCamera())
-                element.updateComponent(this)
+                element.updateComponent()
             }else{
                 throw new Error('E obrigatório o uso da função update')
             }
-            this.getCamera().setSize(jogo.elem.width , jogo.elem.height)
         }
+        this.getCamera().updateComponent()
     }
 
     /**

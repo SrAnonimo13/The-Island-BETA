@@ -1,4 +1,3 @@
-import Camera from "./Camera.js";
 import Tile from "./Tile.js";
 
 export default class TileManager {

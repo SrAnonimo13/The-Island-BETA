@@ -1,4 +1,5 @@
 //Importando as classes do jogo
+import BasicMovement from './Game/BasicMovement.js';
 import Camera from './Game/Camera.js';
 import Game from './Game/Game.js';
 import Scene from './Game/Scene.js';
@@ -17,8 +18,7 @@ let TilePrincipal = new TileManager(Matrix, new Tile(0, 'Images/Tiles/crate.png'
 
 //Configurando o jogo
 SenaPrincipal.addCamera(new Camera('MainCamera', 0, 0));
-
-// SenaPrincipal.getCamera().addComponent(new BasicMovement('CameraMovement', 0.1, {arrowsKeys: {Up: 'w', Down:'s', Left:'a', Right:"d"}}))
+SenaPrincipal.getCamera().addComponent(new BasicMovement('CameraMovement', 2, {arrowsKeys: {Up: 'w', Down:'s', Left:'a', Right:"d"}}))
 //Inicialização do jogo
 game.resize({fullSize:true, autoResize:true});
 SenaPrincipal.addGameObject(new TileMap('MapPrincipal', TilePrincipal))

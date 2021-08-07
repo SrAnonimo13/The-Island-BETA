@@ -33,16 +33,6 @@ export default class Camera extends GameObjet {
     }
 
     /**
-     * Essa função muda a localização da camera no jogo
-     * @param {Number} x - Posição a ser adicionada no eixo x
-     * @param {Number} y - Posição a ser adicionada no eixo y
-     */
-    moveCamera(x, y){
-        this.camera_x += x
-        this.camera_y += y
-    }
-
-    /**
      * Essa função retorna se um GameObject esta no campo de visão da camera
      * @param {Number} x - Posição x do objeto
      * @param {Number} y - Posição y do objeto
@@ -52,7 +42,7 @@ export default class Camera extends GameObjet {
      */
     isInCamera(x, y, width, height) {
         let retorno = false
-        if(x <= this.camera_x + this.width && this.camera_x <= x + width && y <= this.camera_y + this.height && this.camera_y <= y + height){
+        if(x <= this.x + this.width && this.x <= x + width && y <= this.y + this.height && this.y <= y + height){
             retorno = true
         }
         return retorno
