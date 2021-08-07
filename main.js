@@ -19,6 +19,7 @@ let TilePrincipal = new TileManager(Matrix, new Tile(0, 'Images/Tiles/crate.png'
 //Configurando o jogo
 SenaPrincipal.addCamera(new Camera('MainCamera', 0, 0));
 SenaPrincipal.getCamera().addComponent(new BasicMovement('CameraMovement', 2, {arrowsKeys: {Up: 'w', Down:'s', Left:'a', Right:"d"}}))
+
 //Inicialização do jogo
 game.resize({fullSize:true, autoResize:true});
 SenaPrincipal.addGameObject(new TileMap('MapPrincipal', TilePrincipal))
