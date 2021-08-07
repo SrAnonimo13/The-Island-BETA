@@ -9,12 +9,16 @@ export default class Camera extends GameObjet {
      * @param {String} name - Nome da camera
      * @param {Number} x - Posição x da camera
      * @param {Number} y - Posição y da camera
+     * @param {Object} [options] - Opções da camera
+     * @param {Boolean} [options.isLerp] - Se verdadeira a camera ficara mais suave
+     * @param {Number} [options.speed] - Velocidade do Lerp (Suavização da camera) [default:0.1]
      */
-    constructor(name, x, y) {
+    constructor(name, x, y, options) {
         super(name, x, y)
-        this.camera_x = 0
-        this.camera_y = 0
+        this.options = options
         this.renderDistance = 1
+        this.final_x = 0
+        this.final_y = 0
     }
 
     /**@private */
@@ -28,8 +32,25 @@ export default class Camera extends GameObjet {
      * @param {Number} y - Posição a ser adicionada no eixo y
      */
     move(x, y) {
-        this.x += x
-        this.y += y
+        if(!this.options?.isLerp){
+            this.x += x
+            this.y += y
+        }else{
+            this.final_x += x
+            this.final_y += y
+        }
+    }
+
+    lerp(ip, fp, speed){
+        return (1-speed) * ip + speed * fp
+    }
+
+    loop(){
+        if(this.options?.isLerp){
+            let speed = this.options?.speed || 0.1
+            this.x = this.lerp(this.x, this.final_x, speed)
+            this.y = this.lerp(this.y, this.final_y, speed)
+        }
     }
 
     /**

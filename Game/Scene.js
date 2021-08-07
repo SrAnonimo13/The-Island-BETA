@@ -35,6 +35,7 @@ export default class Scene {
             }
         }
         this.getCamera().updateComponent()
+        this.getCamera().loop()
     }
 
     /**

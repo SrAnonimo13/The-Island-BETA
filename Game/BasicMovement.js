@@ -20,6 +20,7 @@ export default class BasicMovement extends Component {
     constructor(name, speed, options) {
         super(name)
         this.speed = speed
+        this.diagonalSpeed = Math.sqrt(speed)
         this.options = options
         this.keys = {}
 
@@ -33,37 +34,42 @@ export default class BasicMovement extends Component {
         })
     }
 
-    IsPressed(key){
+    IsPressed(key) {
         if (this.options.arrowsKeys[key] in this.keys && this.keys[this.options.arrowsKeys[key]].isPressed) {
             return true
         } else return false
     }
 
-    IsMoreKeysPressed(){
-        let i = 0
-        for(let key in this.options.arrowsKeys){
-            if(this.options.arrowsKeys[key].isPressed)
-                i++
-        }
-
-        if(i > 0) return true; else return false
+    IsDiagonal() {
+        if ((this.IsPressed('Up') || this.IsPressed('Down')) && (this.IsPressed('Left') || this.IsPressed('Right'))) {
+            return true
+        } else return false
     }
 
     update(object) {
         if (this.IsPressed('Up')) {
-            object.move(0, this.speed * -1)
-        }
-        
-        if(this.IsPressed('Down')){
-            object.move(0, this.speed)
+            if(this.IsDiagonal()){
+                object.move(0, this.diagonalSpeed * -1)
+            }else{
+                object.move(0, this.speed * -1)
+            }
         }
 
-        if(this.IsPressed('Left')){
+        if (this.IsPressed('Down')) {
+            if(this.IsDiagonal()){
+                object.move(0, this.diagonalSpeed)
+            }else{
+                object.move(0, this.speed)
+            }
+        }
+
+        if (this.IsPressed('Left')) {
             object.move(this.speed * -1, 0)
         }
 
-        if(this.IsPressed('Right')){
+        if (this.IsPressed('Right')) {
             object.move(this.speed, 0)
         }
+
     }
 }

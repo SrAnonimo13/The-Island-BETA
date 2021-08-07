@@ -17,8 +17,8 @@ let SenaPrincipal = new Scene('Game');
 let TilePrincipal = new TileManager(Matrix, new Tile(0, 'Images/Tiles/crate.png', tileSize), new Tile(1, 'Images/Tiles/sand.png', tileSize))
 
 //Configurando o jogo
-SenaPrincipal.addCamera(new Camera('MainCamera', 0, 0));
-SenaPrincipal.getCamera().addComponent(new BasicMovement('CameraMovement', 2, {arrowsKeys: {Up: 'w', Down:'s', Left:'a', Right:"d"}}))
+SenaPrincipal.addCamera(new Camera('MainCamera', 0, 0, {isLerp:true}));
+SenaPrincipal.getCamera().addComponent(new BasicMovement('CameraMovement', 4, {arrowsKeys: {Up: 'w', Down:'s', Left:'a', Right:"d"}}))
 
 //Inicialização do jogo
 game.resize({fullSize:true, autoResize:true});
