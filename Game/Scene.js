@@ -28,7 +28,9 @@ export default class Scene {
         for(let i in this.elements){
             let element = this.elements[i]
             if(element?.update){
-                element.update(ctx, this.getCamera())
+                let camera = this.getCamera()
+                element.setPosition(-1, 0)
+                element.update(ctx, camera)
                 element.updateComponent()
             }else{
                 throw new Error('E obrigatório o uso da função update')

@@ -10,6 +10,8 @@ export default class TileManager {
         this.matrix = matrix
         this.tiles = tiles
         this.tileMatrix = [...Array(matrix.length)].map(e => Array(matrix[0].length).fill(-1));
+        this.x = 0
+        this.y = 0
         this.tileMatrix = this.getMatrix()
     }
 
@@ -24,8 +26,8 @@ export default class TileManager {
                     if (tile.id < 0) throw new Error('So e permitido números acima de 0, id indicado:' + tile.id)
                     if (this.matrix[i][j] == tile.id) {
                         this.tileMatrix[i][j] = new Tile(tile.id, tile.url, tile.height, tile.sprite.image)
-                        this.tileMatrix[i][j].tx = (tile.width * i) + tile.x
-                        this.tileMatrix[i][j].ty = (tile.height * j) + tile.y
+                        this.tileMatrix[i][j].x = (tile.width * i) + this.x
+                        this.tileMatrix[i][j].y = (tile.height * j) + this.y
                     }
                 })
             }

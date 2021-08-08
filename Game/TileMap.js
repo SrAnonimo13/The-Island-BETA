@@ -23,8 +23,10 @@ export default class TileMap extends GameObjet{
     update(ctx, camera){
         this.camera = camera
         this.setSize(camera.width, camera.height)
+        this.manager.x = this.x
+        this.manager.y = this.y
         this.manager.Matrix2dForeach((value, _i_, _j_, array) => {
-            if(camera.isInCamera(value.tx, value.ty, value.width, value.height)){
+            if(camera.isInCamera(value.x, value.y, value.width, value.height)){
                 value.update(ctx, camera)
             }
         })

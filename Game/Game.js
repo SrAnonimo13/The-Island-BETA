@@ -70,7 +70,7 @@ class Game {
         let sena = this.scenes[this.currentScene]
         let camera = sena.cameras[sena.currentCamera]
         if(camera){
-            this.ctx.clearRect(0, 0, camera.width, camera.height);
+            this.ctx.clearRect(0, 0, this.elem.width, this.elem.height);
             for(let i in this.scenes){
                 let scene = this.scenes[i];
                 scene.update(this.ctx, this);

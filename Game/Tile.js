@@ -25,8 +25,6 @@ export default class Tile extends GameObjet{
             this.id = name
         }
         this.url = url
-        this.tx = 0
-        this.ty = 0
     }
 
     /**
@@ -35,6 +33,6 @@ export default class Tile extends GameObjet{
      */
 
     update(ctx, camera){
-        ctx.drawImage(this.sprite.image, this.tx + camera.x * -1, this.ty + camera.y * -1, this.width, this.height)
+        ctx.drawImage(this.sprite.image, this.x + camera.x * -1, this.y + camera.y * -1, this.width, this.height)
     }
 }
