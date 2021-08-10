@@ -72,6 +72,13 @@ export default class GameObjet{
     }
 
     /**
+     * Essa função centraliza seu objeto no meio da tela
+     */
+    center(){
+        this.centralize = true
+    }
+
+    /**
      * Essa função seta o tamanho de um GameObject
      * @param {Number} width - Nova largura do GameObject
      * @param {Number} height - Nova altura do GameObject

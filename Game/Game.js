@@ -14,7 +14,6 @@ class Game {
         this.elem = document.createElement('canvas');
         this.elem.style.backgroundColor = options?.backgroundColor
         this.ctx = this.elem.getContext('2d');
-        this.ctx.imageSmoothingEnabled = options?.SmoothingEnabled || false
         this.currentScene = "";
         this.scenes = {};
     }
@@ -51,7 +50,7 @@ class Game {
             this.elem.height = options.height;
         }
     }
-
+    
     /**
      * Essa função e usada para inicializar o jogo
      */
@@ -61,12 +60,13 @@ class Game {
         document.body.appendChild(this.elem);
         this.update();
     }
-
+    
     /**
      * Essa função e usada para lupar o jogo
      * @private
      */
     update(){
+        this.ctx.imageSmoothingEnabled = this.options?.SmoothingEnabled ? this.options.SmoothingEnabled : false
         let sena = this.scenes[this.currentScene]
         let camera = sena.cameras[sena.currentCamera]
         if(camera){

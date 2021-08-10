@@ -1,4 +1,5 @@
 import Component from "./Component.js";
+import Tile from "./Tile.js";
 
 /**
  * Esse componente e usado para a criação de um movimento no objeto no qual ele foi adicionado
@@ -23,6 +24,7 @@ export default class BasicMovement extends Component {
         this.diagonalSpeed = Math.sqrt(speed)
         this.options = options
         this.keys = {}
+        this.direction = ''
 
         addEventListener('keydown', e => {
             let newKey = { isPressed: true, value: e.key }

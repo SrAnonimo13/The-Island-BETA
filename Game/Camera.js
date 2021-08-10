@@ -16,14 +16,17 @@ export default class Camera extends GameObjet {
     constructor(name, x, y, options) {
         super(name, x, y)
         this.options = options
-        this.renderDistance = 1
         this.final_x = 0
         this.final_y = 0
+        this.target = undefined;
     }
 
-    /**@private */
-    setRenderDistance(render){
-        this.renderDistance = render
+    /**
+     * Essa função centraliza a camera em um objeto especifico
+     * @param {GameObjet} object - Objeto de referencia
+     */
+    setTarget(object){
+        this.target = object
     }
 
     /**
@@ -56,11 +59,22 @@ export default class Camera extends GameObjet {
         return (1-speed) * ip + speed * fp
     }
 
-    loop(){
+    update(){
+        let x = (((this.width / 2) * -1) + this.target.width / 2) + this.target.x
+        let y = (((this.height / 2) * -1) + this.target.height / 2) + this.target.y
         if(this.options?.isLerp){
+            if(this.target){
+                this.final_x = x
+                this.final_y = y
+            }
             let speed = this.options?.speed || 0.1
             this.x = this.lerp(this.x, this.final_x, speed)
             this.y = this.lerp(this.y, this.final_y, speed)
+        }else{
+            if(this.target){
+                this.x = x
+                this.y = y
+            }
         }
     }
 
@@ -73,10 +87,9 @@ export default class Camera extends GameObjet {
      * @returns {Boolean}
      */
     isInCamera(x, y, width, height) {
-        let retorno = false
         if(x <= this.x + this.width && this.x <= x + width && y <= this.y + this.height && this.y <= y + height){
-            retorno = true
+            return true
         }
-        return retorno
+        return false
     }
 }

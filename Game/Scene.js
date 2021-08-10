@@ -24,12 +24,11 @@ export default class Scene {
      * @param {Game} jogo
      */
     update(ctx, jogo){
-        this.getCamera().setSize(jogo.elem.width , jogo.elem.height)
         for(let i in this.elements){
             let element = this.elements[i]
             if(element?.update){
                 let camera = this.getCamera()
-                element.setPosition(-1, 0)
+                camera.setSize(jogo.elem.width, jogo.elem.height)
                 element.update(ctx, camera)
                 element.updateComponent()
             }else{
@@ -37,7 +36,7 @@ export default class Scene {
             }
         }
         this.getCamera().updateComponent()
-        this.getCamera().loop()
+        this.getCamera().update()
     }
 
     /**
@@ -59,7 +58,6 @@ export default class Scene {
         if(!this.currentCamera){
             this.currentCamera = camera.name
         }
-
         this.cameras[camera.name] = camera
     }
 

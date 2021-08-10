@@ -10,7 +10,7 @@ export default class Matrix{
         this.tileSIze = tileSize
         this.matrix = [...Array(size)].map(e => Array(size).fill(-1));
         this.start()
-        noise.seed('123')
+        noise.seed(1524573912)
         for(let y = 0; y < size; y++){
             for(let x = 0; x < size; x++){
                 let id = this.getId(x, y)
@@ -22,7 +22,7 @@ export default class Matrix{
     /**@private*/
     getId(x, y){
         let value = noise.perlin2(x * this.scale, y * this.scale)
-        if(value < 0.1){
+        if(value < 0){
             return 0
         } else if(value < 0.18) {
             return 1
