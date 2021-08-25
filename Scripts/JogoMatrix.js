@@ -10,7 +10,7 @@ export default class Matrix{
         this.tileSIze = tileSize
         this.matrix = [...Array(size)].map(e => Array(size).fill(-1));
         this.start()
-        noise.seed(1524573912)
+        noise.seed(123)
         for(let y = 0; y < size; y++){
             for(let x = 0; x < size; x++){
                 let id = this.getId(x, y)
@@ -33,7 +33,23 @@ export default class Matrix{
 
     /**@private */
     start(){
-        
+        for(let y = 0; y < this.size; y++){
+            for(let x = 0; x < this.size; x++){
+                let id = this.getId(x, y)
+                this.matrix[y][x] = id
+            }
+        }
+    }
+
+    getTree(){
+        let matrix = [...Array(this.size)].map(e => Array(this.size).fill(-1));
+        for(let y = 0; y < this.size; y++){
+            for(let x = 0; x < this.size; x++){
+                let id = this.getId(x, y)
+                matrix[y][x] = !Math.floor(Math.random() * 2) ? id : -1
+            }
+        }
+        return matrix
     }
 
     get(){

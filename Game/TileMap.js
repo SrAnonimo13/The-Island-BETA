@@ -9,11 +9,11 @@ export default class TileMap extends GameObjet{
     /**
      * Essa classe e utilizada para a criação de imagens do senário
      * @param {String} name - Nome no Objeto
-     * @param {TileManager} tileManager - Gerenciador de tiles
+     * @param {...TileManager} tileManagers - Gerenciador de tiles
      */
-    constructor(name, tileManager){
+    constructor(name, ...tileManagers){
         super(name, 0, 0, 0, 0)
-        this.manager = tileManager
+        this.managers = tileManagers
     }
 
     /**
@@ -23,12 +23,15 @@ export default class TileMap extends GameObjet{
     update(ctx, camera){
         this.camera = camera
         this.setSize(camera.width, camera.height)
-        this.manager.x = this.x
-        this.manager.y = this.y
-        this.manager.Matrix2dForeach((value, _i_, _j_, array) => {
-            if(camera.isInCamera(value.x, value.y, value.width, value.height)){
-                value.update(ctx, camera)
-            }
+        this.managers.forEach( manager => {
+            manager.x = this.x
+            manager.y = this.y
+            manager.Matrix2dForeach((value, _i_, _j_, array) => {
+                if(camera.isInCamera(value.x, value.y, value.width, value.height)){
+                    value.update(ctx, camera)
+                }
+            })
+
         })
     }
 }
