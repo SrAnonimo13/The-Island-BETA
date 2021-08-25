@@ -32,8 +32,11 @@ export default class Animator extends Component {
         if(this.keyEvent.IsPressed(0)){
             this.contador++
             let value = Math.floor(this.contador / (this.speed * 2))
-            if(target.columns < value + 1) this.contador = 0
+            if(target.columns <= value) this.contador = 0
             target.currentAnimation = value
+        }else{
+            this.contador = 0
+            target.currentAnimation = 0
         }
     }
 }
