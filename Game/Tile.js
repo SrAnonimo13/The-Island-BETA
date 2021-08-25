@@ -8,18 +8,19 @@ export default class Tile extends GameObjet {
      * @param {String} url - Local aonde a imagens esta localizada
      * @param {Number} size - Tamanho dos tiles
      * @param {HTMLImageElement} [image] - Imagem já carregada para poupar processamento
-     * @param {number} [columns]
-     * @param {number} [lines]
+     * @param {Number} [columns]
+     * @param {Number} [lines]
      */
     constructor(name, url, size, image, columns, lines) {
         super('', 0, 0, size, size)
         this.columns = columns
         this.lines = lines
         this.sprite = new Sprite(url)
-        if (!image)
+        if (!image){
             this.sprite.loadImage()
-        else
+        }else{
             this.sprite.image = image
+        }
 
         if (typeof name == "string") {
             this.name = name
@@ -29,11 +30,10 @@ export default class Tile extends GameObjet {
             this.id = name
         }
         this.url = url
-        this.currentFrame = 0
-        this.currentAnimation = 0
-        this.spriteX = this.sprite.image.width / this.columns
-        this.spriteY = this.sprite.image.height / this.lines
+        this.currentFrame = this.currentAnimation = 0
+        this.spriteX = this.spriteY = 0
         this.magro = 5
+        this.conter = 0
     }
 
     /**
@@ -41,16 +41,17 @@ export default class Tile extends GameObjet {
      */
 
     update(ctx, camera) {
-        // @ts-ignore
-        if(this.sprite.image.loading){
-            if (this.columns && this.lines) {
+        if (this.columns && this.lines) {
+            if(this.spriteX || this.spriteY){
                 ctx.drawImage(this.sprite.image, this.spriteX * this.currentAnimation, this.spriteY * this.currentFrame, this.spriteX, this.spriteY, (this.x + camera.x * -1), this.y + camera.y * -1, this.width - this.magro, this.height)
-            } else {
-                ctx.drawImage(this.sprite.image, this.x + camera.x * -1, this.y + camera.y * -1, this.width, this.height)
+            }else{
+                this.spriteX = this.sprite.image.width / this.columns
+                this.spriteY = this.sprite.image.height / this.lines
             }
-        }else {
-            console.log('oi')
-            this.sprite = this.sprite.loadImage()
+        } else {
+            ctx.drawImage(this.sprite.image, this.x + camera.x * -1, this.y + camera.y * -1, this.width, this.height)
         }
     }
+
+    
 }

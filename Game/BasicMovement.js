@@ -1,4 +1,5 @@
 import Component from "./Component.js";
+import KeyEvent from "./keyEvent.js";
 import Tile from "./Tile.js";
 
 /**
@@ -23,42 +24,43 @@ export default class BasicMovement extends Component {
         this.speed = speed
         this.diagonalSpeed = Math.sqrt(speed)
         this.options = options
-        this.keys = {}
+        // this.keys = {}
+        this.keyEvent = new KeyEvent(options.arrowsKeys)
         this.direction = ''
+        
 
-        addEventListener('keydown', e => {
-            let newKey = { isPressed: true, value: e.key }
-            this.keys[e.key] = newKey
-        })
+        // addEventListener('keydown', e => {
+        //     this.keys[e.key] = { isPressed: true, value: e.key }
+        // })
 
-        addEventListener('keyup', e => {
-            delete this.keys[e.key]
-        })
+        // addEventListener('keyup', e => {
+        //     delete this.keys[e.key]
+        // })
     }
 
-    /**
-     * Essa função e usada para identificar se a tecla foi pressionada
-     * @param {String} key - Tecla a ser detectada
-     * @returns {Boolean}
-     */
-    IsPressed(key) {
-        if (this.options.arrowsKeys[key] in this.keys && this.keys[this.options.arrowsKeys[key]].isPressed) {
-            return true
-        } else return false
-    }
+    // /**
+    //  * Essa função e usada para identificar se a tecla foi pressionada
+    //  * @param {String} key - Tecla a ser detectada
+    //  * @returns {Boolean}
+    //  */
+    // IsPressed(key) {
+    //     if (this.options.arrowsKeys[key] in this.keys && this.keys[this.options.arrowsKeys[key]].isPressed) {
+    //         return true
+    //     } else return false
+    // }
 
     /**
      * Essa função e usada para identificar se ouve um movimento diagonal
      * @returns {Boolean}
      */
     IsDiagonal() {
-        if ((this.IsPressed('Up') || this.IsPressed('Down')) && (this.IsPressed('Left') || this.IsPressed('Right'))) {
+        if ((this.keyEvent.IsPressed('Up') || this.keyEvent.IsPressed('Down')) && (this.keyEvent.IsPressed('Left') || this.keyEvent.IsPressed('Right'))) {
             return true
         } else return false
     }
 
     update(object) {
-        if (this.IsPressed('Up')) {
+        if (this.keyEvent.IsPressed('Up')) {
             if(this.IsDiagonal()){
                 object.move(0, this.diagonalSpeed * -1)
             }else{
@@ -66,7 +68,7 @@ export default class BasicMovement extends Component {
             }
         }
 
-        if (this.IsPressed('Down')) {
+        if (this.keyEvent.IsPressed('Down')) {
             if(this.IsDiagonal()){
                 object.move(0, this.diagonalSpeed)
             }else{
@@ -74,11 +76,11 @@ export default class BasicMovement extends Component {
             }
         }
 
-        if (this.IsPressed('Left')) {
+        if (this.keyEvent.IsPressed('Left')) {
             object.move(this.speed * -1, 0)
         }
 
-        if (this.IsPressed('Right')) {
+        if (this.keyEvent.IsPressed('Right')) {
             object.move(this.speed, 0)
         }
 

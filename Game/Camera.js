@@ -12,6 +12,7 @@ export default class Camera extends GameObjet {
      * @param {Object} [options] - Opções da camera
      * @param {Boolean} [options.isLerp] - Se verdadeira a camera ficara mais suave
      * @param {Number} [options.speed] - Velocidade do Lerp (Suavização da camera) [default:0.1]
+     * @param {Boolean} [options.smartScreen] - Permite a camera não visualizar o final do mundo
      */
     constructor(name, x, y, options) {
         super(name, x, y)
@@ -60,8 +61,10 @@ export default class Camera extends GameObjet {
     }
 
     update(){
+        // console.log(this.x)
         let x = (((this.width / 2) * -1) + this.target.width / 2) + this.target.x
         let y = (((this.height / 2) * -1) + this.target.height / 2) + this.target.y
+        
         if(this.options?.isLerp){
             if(this.target){
                 this.final_x = x

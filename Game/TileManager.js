@@ -44,12 +44,6 @@ export default class TileManager {
      * @param {Array<Array<Tile|Number>>} [array] - Array 2d padrão
      */
     Matrix2dForeach(fc) {
-        for (let i = 0; i < this.tileMatrix.length; i++) {
-            for (let j = 0; j < this.tileMatrix[i].length; j++) {
-                /**@type {Tile} */
-                let value = this.tileMatrix[i][j]
-                fc(value, i, j, this.tileMatrix)
-            }
-        }
+        this.tileMatrix.forEach((__value, i) => __value.forEach((value, j) => fc(value, i, j, this.tileMatrix)))
     }
 }
