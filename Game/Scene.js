@@ -18,6 +18,14 @@ export default class Scene {
         this.currentCamera = ''
     }
 
+    getGameObject(name){
+        if(name in this.elements){
+            return this.elements[name]
+        }else{
+            throw new Error('O objeto não existe na sena')
+        }
+    }
+
     /**
      * @private
      * @param {CanvasRenderingContext2D} ctx
@@ -31,9 +39,9 @@ export default class Scene {
                 camera.setSize(jogo.elem.width, jogo.elem.height)
                 element.update(ctx, camera)
                 element.updateComponent()
-            }else{
+            }else
                 throw new Error('E obrigatório o uso da função update')
-            }
+            
         }
         this.getCamera().updateComponent()
         this.getCamera().update()

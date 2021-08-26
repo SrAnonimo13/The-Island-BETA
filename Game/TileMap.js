@@ -1,5 +1,6 @@
 import Camera from "./Camera.js";
 import GameObjet from "./GameObject.js";
+import Tile from "./Tile.js";
 import TileManager from "./TileManager.js";
 
 /**
@@ -26,8 +27,9 @@ export default class TileMap extends GameObjet{
         this.managers.forEach( manager => {
             manager.x = this.x
             manager.y = this.y
-            manager.Matrix2dForeach((value, _i_, _j_, array) => {
-                if(camera.isInCamera(value.x, value.y, value.width, value.height)){
+            manager.generate(camera)
+            manager.Matrix2dForeach(value => {
+                if(value instanceof Tile) {
                     value.update(ctx, camera)
                 }
             })

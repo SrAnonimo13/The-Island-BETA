@@ -1,9 +1,15 @@
+import Camera from '../Game/Camera.js'
 import perlin from '../Game/Perlin.js'
 let noise = perlin()
 /**
  * Matrix do jogo
  */
 export default class Matrix{
+    /**
+     * @param {Number} size - máximo do jogo
+     * @param {Number} tileSize - tamanho do tile
+     * @param {Number} [scale] - escala do perlin 
+     */
     constructor(size, tileSize, scale=0.04){
         this.size = size
         this.scale = scale
@@ -56,11 +62,3 @@ export default class Matrix{
         return this.matrix
     }
 }
-
-// export default [
-//     [0, 1, 0, 1, 0],
-//     [1, 0, 1, 0, 1],
-//     [0, 1, 0, 1, 0],
-//     [1, 0, 1, 0, 1],
-//     [0, 1, 0, 1, 0]
-// ]

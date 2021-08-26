@@ -12,27 +12,27 @@ export default class TileManager {
         this.tileMatrix = [...Array(matrix.length)].map(e => Array(matrix[0].length).fill(-1));
         this.x = 0
         this.y = 0
-        this.tileMatrix = this.getMatrix()
     }
 
     /**
      * Essa função cria uma matrix 2d de tiles
-     * @returns {Array<Array<Tile>>}
      */
-    getMatrix() {
-        for (let i = 0; i < this.matrix.length; i++) {
-            for (let j = 0; j < this.matrix[i].length; j++) {
-                this.tiles.forEach((tile) => {
+    generate(camera) {
+        this.matrix.forEach((_value_, i) => this.matrix[i].forEach((_value_, j) => {
+            this.tiles.every((tile) => {
+                if(camera.isInCamera(tile.width * i, tile.height * j, tile.width, tile.height) && this.tileMatrix[i][j] == -1){
                     if (tile.id < 0) throw new Error('So e permitido números acima de 0, id indicado:' + tile.id)
                     if (this.matrix[i][j] == tile.id) {
-                        this.tileMatrix[i][j] = new Tile(tile.id, tile.url, tile.height, tile.sprite.image)
+                        this.tileMatrix[i][j] = new Tile(tile.id, tile.sprite.url, tile.height, tile.sprite.image)
                         this.tileMatrix[i][j].x = (tile.width * i) + this.x
                         this.tileMatrix[i][j].y = (tile.height * j) + this.y
                     }
-                })
-            }
-        }
-        return this.tileMatrix
+                    return true
+                }else{
+                    return false
+                }
+            })
+        }))
     }
 
     /**

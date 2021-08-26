@@ -29,11 +29,8 @@ export default class Tile extends GameObjet {
             this.name = "Tile genérico"
             this.id = name
         }
-        this.url = url
         this.currentFrame = this.currentAnimation = 0
         this.spriteX = this.spriteY = 0
-        this.magro = 5
-        this.conter = 0
     }
 
     /**
@@ -43,7 +40,7 @@ export default class Tile extends GameObjet {
     update(ctx, camera) {
         if (this.columns && this.lines) {
             if(this.spriteX || this.spriteY){
-                ctx.drawImage(this.sprite.image, this.spriteX * this.currentAnimation, this.spriteY * this.currentFrame, this.spriteX, this.spriteY, (this.x + camera.x * -1), this.y + camera.y * -1, this.width - this.magro, this.height)
+                ctx.drawImage(this.sprite.image, this.spriteX * this.currentAnimation, this.spriteY * this.currentFrame, this.spriteX, this.spriteY, (this.x + camera.x * -1), this.y + camera.y * -1, this.width - 5, this.height)
             }else{
                 this.spriteX = this.sprite.image.width / this.columns
                 this.spriteY = this.sprite.image.height / this.lines

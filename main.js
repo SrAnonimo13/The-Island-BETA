@@ -11,19 +11,20 @@ import Matrix from './Scripts/JogoMatrix.js';
 import Player from './Scripts/Player.js'
 
 //Definindo Variáveis
-let tileSize = 100
+let tileSize = 110
 let game = new Game({ backgroundColor: 'blue' });
 let SenaPrincipal = new Scene('Game');
-let matrix = new Matrix(200, tileSize)
+let camera = new Camera('MainCamera', 0, 0, { isLerp: true })
+let matrix = new Matrix(100, tileSize);
 let TilePrincipal = new TileManager(matrix.get(), new Tile(0, 'Images/Tiles/grama.jpg', tileSize), new Tile(1, 'Images/Tiles/sand.png', tileSize), new Tile(2, 'Images/Tiles/water1.jpg', tileSize))
 let treesMap = new TileManager(matrix.getTree(), new Tile(0, 'Images/Tiles/tree0.png', tileSize), new Tile(1, 'Images/Tiles/tree1.png', tileSize))
 
 //Configurando o jogo
 game.addScene(SenaPrincipal);
 
-SenaPrincipal.addCamera(new Camera('MainCamera', 0, 0, { isLerp: true }));
+SenaPrincipal.addCamera(camera);
 SenaPrincipal.addGameObject(new TileMap('MapPrincipal', TilePrincipal, treesMap))
-SenaPrincipal.addGameObject(new Player(SenaPrincipal.getCamera()))
+SenaPrincipal.addGameObject(new Player(SenaPrincipal.getCamera(), tileSize, SenaPrincipal.getGameObject('MapPrincipal')))
 
 //Inicialização do jogo
 game.resize({ fullSize: true, autoResize: true });

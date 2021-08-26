@@ -1,5 +1,5 @@
 // @ts-nocheck
-export default function (global) {
+export default function () {
     var module = {};
 
     function Grad(x, y, z) {
