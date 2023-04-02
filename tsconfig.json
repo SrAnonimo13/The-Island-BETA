@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "module": "ES6",
+        "target": "ES2021",
+        "rootDir": "./src",
+        "outDir": "./bin",
+        "lib": ["ES2020", "DOM"]
+    }
+}

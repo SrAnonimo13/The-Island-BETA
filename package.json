@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "typescript": "^5.0.2"
+  },
+  "name": "the-island-beta",
+  "description": "",
+  "version": "1.0.0",
+  "main": "main.js",
+  "devDependencies": {},
+  "scripts": {
+    "dev": "tsc -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SrAnonimo13/The-Island-BETA.git"
+  },
+  "author": "SrAnonimo13",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SrAnonimo13/The-Island-BETA/issues"
+  },
+  "homepage": "https://github.com/SrAnonimo13/The-Island-BETA#readme"
+}

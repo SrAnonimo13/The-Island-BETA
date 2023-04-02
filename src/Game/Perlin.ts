@@ -1,5 +1,14 @@
 // @ts-nocheck
-export default function () {
+
+export type PerlinFunctions = {
+    seed: (seed: number) => void;
+    simplex2: (xin: number, yin: number) => number;
+    simplex3: (xin: number, yin: number, zin: number) => number;
+    perlin2: (x: number, y: number) => number;
+    perlin3: (x: number, y: number, z: number) => number;
+}
+
+export default function (): PerlinFunctions {
     var module = {};
 
     function Grad(x, y, z) {
@@ -37,7 +46,7 @@ export default function () {
 
     // This isn't a very good seeding function, but it works ok. It supports 2^16
     // different seed values. Write something better if you need more seeds.
-    module.seed = function (seed) {
+    module.seed = function (seed: number) {
         if (seed > 0 && seed < 1) {
             // Scale the seed out
             seed *= 65536;
@@ -77,7 +86,7 @@ export default function () {
     var G3 = 1 / 6;
 
     // 2D simplex noise
-    module.simplex2 = function (xin, yin) {
+    module.simplex2 = function (xin: number, yin: number) {
         var n0, n1, n2; // Noise contributions from the three corners
         // Skew the input space to determine which simplex cell we're in
         var s = (xin + yin) * F2; // Hairy factor for 2D

@@ -3,14 +3,22 @@
  */
 
 import Camera from "./Camera.js";
+import Component from "./Component.js";
 import Game from "./Game.js";
 import GameObjet from "./GameObject.js";
 
 export default class Scene {
+    name: string;
+    elements: { [name: string]: GameObjet };
+    cameras: { [name: string]: Camera };
+    components: { [name: string]: Component };
+    currentCamera: string;
+    game: Game;
+
     /**
      * @param {String} name - Nome da sena
      */
-    constructor(name){
+    constructor(name: string) {
         this.name = name
         this.elements = {}
         this.cameras = {}
@@ -18,12 +26,16 @@ export default class Scene {
         this.currentCamera = ''
     }
 
-    getGameObject(name){
-        if(name in this.elements){
+    getGameObject(name: string) {
+        if (name in this.elements) {
             return this.elements[name]
-        }else{
-            throw new Error('O objeto não existe na sena')
+        } else {
+            throw new Error(`O objeto '${name}' não existe na sena`)
         }
+    }
+
+    setGame(game: Game) {
+        this.game = game;
     }
 
     /**
@@ -31,18 +43,20 @@ export default class Scene {
      * @param {CanvasRenderingContext2D} ctx
      * @param {Game} jogo
      */
-    update(ctx, jogo){
-        for(let i in this.elements){
-            let element = this.elements[i]
-            if(element?.update){
-                let camera = this.getCamera()
-                camera.setSize(jogo.elem.width, jogo.elem.height)
-                element.update(ctx, camera)
-                element.updateComponent()
-            }else
+    update(ctx: CanvasRenderingContext2D, jogo: Game) {
+        let camera = this.getCamera()
+        camera.setSize(jogo.elem.width, jogo.elem.height)
+
+        Object.values(this.elements)
+        // .map(v => camera.isInCamera(v.x, v.y, v.width, v.height))
+        .forEach(element => {
+            if (!element?.update)
                 throw new Error('E obrigatório o uso da função update')
-            
-        }
+
+            element.update(ctx, camera);
+            element.updateComponent();
+        })
+
         this.getCamera().updateComponent()
         this.getCamera().update()
     }
@@ -51,19 +65,18 @@ export default class Scene {
      * Essa função e utilizada para a adição de Objetos ao jogo
      * @param {GameObjet} gameObject 
      */
-    addGameObject(gameObject){
-        if(gameObject instanceof GameObjet)
-            this.elements[gameObject.name] = gameObject
-        else
-            throw new Error('Essa classe não e um GameObject')
+    addGameObject(gameObject: GameObjet) {
+        this.elements[gameObject.name] = gameObject;
     }
 
     /**
      * 
      * @param {Camera} camera - Adiciona uma camera a sua cena e deixa ela como a camera principal (se não existir outra camera)
      */
-    addCamera(camera){
-        if(!this.currentCamera){
+    addCamera(camera: Camera) {
+        camera.setSize(this.game.elem.width, this.game.elem.height)
+
+        if (!this.currentCamera) {
             this.currentCamera = camera.name
         }
         this.cameras[camera.name] = camera
@@ -73,7 +86,7 @@ export default class Scene {
      * Define a camera padrão
      * @param {String} name - Nome da camera para deixar a camera padrão
      */
-    setCamera(name){
+    setCamera(name: string) {
         this.currentCamera = name
     }
 
@@ -81,7 +94,7 @@ export default class Scene {
      * Retorna a camera que esta sendo utilizada
      * @returns {Camera}
      */
-    getCamera(){
+    getCamera(): Camera {
         return this.cameras[this.currentCamera]
     }
 }

@@ -4,6 +4,18 @@ import GameObjet from "./GameObject.js"
  * Essencial para a renderização do jogo
  */
 export default class Camera extends GameObjet {
+    name: string;
+    x: number;
+    y: number;
+    options?: {
+        isLerp?: boolean;
+        speed?: number;
+    }
+
+    target?: GameObjet;
+    private final_x: number;
+    private final_y: number;
+
     /**
      * Essa classe e usada para renderizar o jogo
      * @param {String} name - Nome da camera
@@ -12,22 +24,29 @@ export default class Camera extends GameObjet {
      * @param {Object} [options] - Opções da camera
      * @param {Boolean} [options.isLerp] - Se verdadeira a camera ficara mais suave
      * @param {Number} [options.speed] - Velocidade do Lerp (Suavização da camera) [default:0.1]
-     * @param {Boolean} [options.smartScreen] - Permite a camera não visualizar o final do mundo
      */
-    constructor(name, x, y, options) {
+    constructor(name: string, x: number, y: number, options: { isLerp?: boolean; speed?: number; }) {
         super(name, x, y)
         this.options = options
         this.final_x = 0
         this.final_y = 0
-        this.target = undefined;
+        this.target = null;
     }
 
     /**
      * Essa função centraliza a camera em um objeto especifico
      * @param {GameObjet} object - Objeto de referencia
      */
-    setTarget(object){
+    setTarget(object: GameObjet, smoothing: boolean = false) {
+        if(smoothing == false)
+            this.centerIn(object)
+        
         this.target = object
+    }
+
+    centerIn(object: { x: number, y: number, width: number, height: number }) {
+        this.x = (((this.width / 2) * -1) + object.width / 2) + object.x
+        this.y = (((this.height / 2) * -1) + object.height / 2) + object.y
     }
 
     /**
@@ -35,11 +54,11 @@ export default class Camera extends GameObjet {
      * @param {Number} x - Posição a ser adicionada no eixo x
      * @param {Number} y - Posição a ser adicionada no eixo y
      */
-    move(x, y) {
-        if(!this.options?.isLerp){
+    move(x: number, y: number) {
+        if (!this.options?.isLerp) {
             this.x += x
             this.y += y
-        }else{
+        } else {
             this.final_x += x
             this.final_y += y
         }
@@ -47,8 +66,8 @@ export default class Camera extends GameObjet {
 
     /**
      * Essa função e usada para suaviza o movimento da camera
-     * @param {Number} ip - A posição atual do objeto
-     * @param {Number} fp - A posição vinal do objeto
+     * @param {Number} initial - A posição atual do objeto
+     * @param {Number} final - A posição vinal do objeto
      * @param {Number} speed - Velocidade da suavização
      * @example
      * this.x = this.lerp(this.x, this.final_x, speed)
@@ -56,28 +75,25 @@ export default class Camera extends GameObjet {
      * // > this.x = 0.003..
      * // > this.x = ...
      */
-    lerp(ip, fp, speed){
-        return (1-speed) * ip + speed * fp
+    lerp(initial: number, final: number, speed: number) {
+        return (1 - speed) * initial + speed * final
     }
 
-    update(){
-        // console.log(this.x)
-        let x = (((this.width / 2) * -1) + this.target.width / 2) + this.target.x
-        let y = (((this.height / 2) * -1) + this.target.height / 2) + this.target.y
-        
-        if(this.options?.isLerp){
-            if(this.target){
-                this.final_x = x
-                this.final_y = y
-            }
+    update() {
+        let x = this.x;
+        let y = this.y;
+
+        if (this.target) {
+            x = (((this.width / 2) * -1) + this.target.width / 2) + this.target.x
+            y = (((this.height / 2) * -1) + this.target.height / 2) + this.target.y
+        }
+
+        if (this.options?.isLerp) {
+            this.final_x = x
+            this.final_y = y
             let speed = this.options?.speed || 0.1
             this.x = this.lerp(this.x, this.final_x, speed)
             this.y = this.lerp(this.y, this.final_y, speed)
-        }else{
-            if(this.target){
-                this.x = x
-                this.y = y
-            }
         }
     }
 
@@ -89,10 +105,12 @@ export default class Camera extends GameObjet {
      * @param {Number} height - Altura do objeto
      * @returns {Boolean}
      */
-    isInCamera(x, y, width, height) {
-        if(x <= this.x + this.width && this.x <= x + width && y <= this.y + this.height && this.y <= y + height){
-            return true
-        }
-        return false
+    isInCamera(x: number, y: number, width: number, height: number): boolean {
+        return (
+            x <= this.width + this.x &&
+            x + width >= this.x &&
+            y <= this.height + this.y &&
+            y + height >= this.y
+        )
     }
 }

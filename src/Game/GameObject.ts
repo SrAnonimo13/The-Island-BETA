@@ -1,26 +1,29 @@
+import Camera from "./Camera.js"
 import Component from "./Component.js"
 
 /**
  * Essa classe e essencial para a criação de objetos
  */
-export default class GameObjet{
-    /**
-     * Esse elemento e essencial para a criação de objetos
-     * 
-     * @param {string} name - Nome do GameObject
-     * @param {number} x - Posição x do GameObject
-     * @param {number} y - Posição y do GameObject
-     * @param {number} [width] - Largura do GameObject
-     * @param {number} [height] - Altura do GameObject
-     */
-    constructor(name, x, y, width=0, height=0){
-        this.name = name
-        this.x = x
-        this.y = y
-        this.width = width
-        this.height = height
-        this.components = {}
+export default abstract class GameObjet{
+    name: string;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    components: { [name: string]: Component };
+    ever_visible: boolean;
+
+    constructor(name: string, x: number, y: number, width: number=0, height: number=0){
+        this.name = name;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.components = {};
+        this.ever_visible = false;
     }
+
+    abstract update(ctx: CanvasRenderingContext2D, camera: Camera): void;
 
     /**
      * Essa função adiciona um componente para um GameObject
@@ -48,7 +51,7 @@ export default class GameObjet{
      * GameObject.setPosition(10, 10)
      * //objeto = {x: 10, x:10}
      */
-    setPosition(x, y){
+    setPosition(x: number, y: number){
         this.x = x
         this.y = y
     }
@@ -62,20 +65,13 @@ export default class GameObjet{
      * GameObject.move(10, 10)
      * //objeto = {x: 13, x:13}
      */
-    move(x=0, y=0){
+    move(x: number=0, y: number=0){
         this.x += x
         this.y += y
     }
 
-    getPoss(){
+    getPoss(): [number, number]{
         return [this.x, this.y]
-    }
-
-    /**
-     * Essa função centraliza seu objeto no meio da tela
-     */
-    center(){
-        this.centralize = true
     }
 
     /**
